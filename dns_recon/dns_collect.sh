@@ -7,16 +7,14 @@ run_for_only_one_domain(){
 	mkdir -p ${domain_folder}
 	
 	if [ "${scan_mode}" == "full" ]; then		
-		
+
 
 		#PASSIVE SCAN
 
 		#Amass scan(amass_out.txt)
 		echo "Amass passive scan with config"
-		#${AMASS_PATH}/amass enum --passive  -v -noalts -exclude commoncrawl -config ${AMASS_PATH}/config.ini -o ${domain_folder}/passive_out.txt -log ${domain_folder}/amass.log -d ${domain} 
-		${AMASS_PATH}/amass enum --passive -v -noalts -exclude commoncrawl -o ${domain_folder}/passive_out.txt -log ${domain_folder}/amass.log -d ${domain} 
-
-
+		${AMASS_PATH}/amass enum --passive  -v -noalts -exclude commoncrawl -config ${AMASS_PATH}/config.ini -o ${domain_folder}/passive_out.txt -log ${domain_folder}/amass.log -d ${domain} 
+		
 		#Resolve passive scan(resolved_passive.txt)
 		echo "DNS resolving for amass + rapid7"
 		${MASSDNS_PATH}/bin/massdns -r public_dns.txt -q -t A -o S -w ${domain_folder}/resolved_passive.txt ${domain_folder}/passive_out.txt
@@ -50,6 +48,10 @@ run_for_only_one_domain(){
 		echo "Fin report creation"
 		python3.7 create_fin_report.py ${domain_folder} ${domain_folder}/resolved_passive.txt ${domain_folder}/resolved_brute.txt ${domain_folder}/resolved_alt.txt
 
+		#Get ASN's for all subdomains(fin_asn.txt)
+		echo "Get ASN"
+		bash get_asn.sh -f ${domain_folder}/fin_only_domains.txt > ${domain_folder}/fin_asn.txt
+
 	elif [ "${scan_mode}" == "scedule_scan" ]; then		
 		echo "Section under construction"
 	fi
@@ -59,7 +61,13 @@ run_for_only_one_domain(){
 
 run_for_file(){
 	echo "file is $file"
-	echo "Section is under construction"
+	while IFS= read -r line
+    do
+        domain="$line"
+        run_for_only_one_domain 
+    done < "$file"
+    echo "End of domainS scan"
+
 }
 
 
