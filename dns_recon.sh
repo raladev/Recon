@@ -64,6 +64,10 @@ run_for_only_one_domain(){
 		mkdir -p "${domain_folder}/cors"
 		python3.7 get_cors.py --file ${domain_folder}/fin_only_domains.txt --output ${domain_folder}/cors
 
+		#SCREENSHOTS FOR SUBDOMAINS
+		mkdir -p "${domain_folder}/screens"
+		python3.7 ${SCREEN_TOOL}/webscreenshot.py -i ${domain_folder}/fin_only_domains.txt -o ${domain_folder}/screens/
+
 	elif [ "${scan_mode}" == "scedule_scan" ]; then		
 		echo "Section under construction"
 	fi
@@ -85,7 +89,9 @@ run_for_file(){
 #variables for setEnv.sh
 AMASS_PATH=${HOME}/tools/amass_v3.4.2_linux_amd64
 MASSDNS_PATH=${HOME}/tools/massdns
+SCREEN_TOOL=${HOME}/tools/webscreenshot
 PROJECTS_FOLDER=${HOME}/myProjects
+
 
 
 while getopts d:f:p:m: option
