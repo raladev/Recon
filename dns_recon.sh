@@ -42,6 +42,7 @@ run_for_only_one_domain(){
 		#Resolve alt list(resolved_alt.txt)
 		echo "DNS resolving for alt list"
 		${MASSDNS_PATH}/bin/massdns -r data/public_dns.txt -q -t A -o S -w ${domain_folder}/resolved_alt.txt ${domain_folder}/alt_list.txt
+		rm ${domain_folder}/domains_for_alt.txt
 		rm ${domain_folder}/alt_list.txt
 
 		
