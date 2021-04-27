@@ -3,7 +3,6 @@
 #Tools pathes
 AMASS_PATH=${HOME}/tools/amass_v3.4.2_linux_amd64
 MASSDNS_PATH=${HOME}/tools/massdns
-SCREEN_TOOL=${HOME}/tools/webscreenshot
 PROJECTS_FOLDER=${HOME}/myProjects
 
 run_for_only_one_domain(){
@@ -69,7 +68,6 @@ run_for_file(){
         run_for_only_one_domain 
     done < "$file"
     echo "End of domainS scan"
-
 }
 
 while getopts d:f:p:m: option
