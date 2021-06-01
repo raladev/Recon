@@ -25,13 +25,13 @@ run_for_only_one_domain(){
 
 		#Save unresolved for vhost brute (unresolved_passive.txt)
 		echo "Saving unresolved create_domain_list_for_alt"
-		python3.7 sub_scripts/create_unresolved_list.py ${domain_folder} ${domain_folder}/passive_out.txt ${domain_folder}/resolved_passive.txt
+		python3 sub_scripts/create_unresolved_list.py ${domain_folder} ${domain_folder}/passive_out.txt ${domain_folder}/resolved_passive.txt
 
 		#BRUTEFORCE
 
 		#Bruteforce list creation(brute_list.txt)
 		echo "Brutefoce list creation"
-		python3.7 sub_scripts/create_brute_dns_list.py data/subdomains_for_bruteforce.txt ${domain_folder} ${domain}
+		python3 sub_scripts/create_brute_dns_list.py data/subdomains_for_bruteforce.txt ${domain_folder} ${domain}
 
 		#Resolve brute list(resolved_brute.txt)
 		echo "DNS resolving for brute list"
@@ -44,7 +44,7 @@ run_for_only_one_domain(){
 
 		#alterations creation (resolved_passive + resolved+brute = domains_for_alt.txt, domains_for_alt.txt -> alt_list.txt)
 		echo "Alterations creation"
-		python3.7 sub_scripts/create_domain_list_for_alt.py ${domain_folder} ${domain_folder}/resolved_passive.txt ${domain_folder}/resolved_brute.txt
+		python3 sub_scripts/create_domain_list_for_alt.py ${domain_folder} ${domain_folder}/resolved_passive.txt ${domain_folder}/resolved_brute.txt
 		dnsgen ${domain_folder}/domains_for_alt.txt > ${domain_folder}/alt_list.txt
 
 		#Resolve alt list(resolved_alt.txt)
@@ -57,7 +57,7 @@ run_for_only_one_domain(){
 		
 		#Build final list of subdomains(fin_only_domains.txt, fin_statistic.txt, fin_a_dns_records.txt)
 		echo "Fin report creation"
-		python3.7 sub_scripts/create_fin_report.py ${domain_folder} ${domain_folder}/resolved_passive.txt ${domain_folder}/resolved_brute.txt ${domain_folder}/resolved_alt.txt
+		python3 sub_scripts/create_fin_report.py ${domain_folder} ${domain_folder}/resolved_passive.txt ${domain_folder}/resolved_brute.txt ${domain_folder}/resolved_alt.txt
 
 	elif [ "${scan_mode}" == "scedule_scan" ]; then		
 		echo "Section under construction"
