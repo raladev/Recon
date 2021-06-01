@@ -15,13 +15,17 @@ run_for_only_one_domain(){
 
 		#PASSIVE SCAN
 
-		#Amass scan(amass_out.txt)
+		#Amass scan(passive_out.txt)
 		echo "Amass passive scan with config"
 		${AMASS_PATH}/amass enum --passive  -v -noalts -exclude commoncrawl -config ${AMASS_PATH}/config.ini -o ${domain_folder}/passive_out.txt -log ${domain_folder}/amass.log -d ${domain} 
-			
+
 		#Resolve passive scan(resolved_passive.txt)
 		echo "DNS resolving for amass + rapid7"
 		${MASSDNS_PATH}/bin/massdns -r data/public_dns.txt -q -t A -o S -w ${domain_folder}/resolved_passive.txt ${domain_folder}/passive_out.txt
+
+		#Save unresolved for vhost brute (unresolved_passive.txt)
+		echo "Saving unresolved create_domain_list_for_alt"
+		python3.7 sub_scripts/create_unresolved_list.py ${domain_folder} ${domain_folder}/passive_out.txt ${domain_folder}/resolved_passive.txt
 
 		#BRUTEFORCE
 
@@ -33,6 +37,8 @@ run_for_only_one_domain(){
 		echo "DNS resolving for brute list"
 		${MASSDNS_PATH}/bin/massdns -r data/public_dns.txt -q -t A -o S -w ${domain_folder}/resolved_brute.txt ${domain_folder}/brute_list.txt
 		rm ${domain_folder}/brute_list.txt
+
+		#Brute vhost (for now only unresolved output of passive scan is used for the vhost brute)
 
 		#ALTERATIONS BRUTEFORCE
 

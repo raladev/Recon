@@ -16,9 +16,9 @@ if __name__ == "__main__":
     brute_list = open(resolved_brute).read().splitlines()
     alt_list = open(resolved_alt).read().splitlines()
  
-    passive_domain_list = [re.match("([a-z0-9-\.]*)\. ", i).group(1) for i in passive_list]
-    brute_domain_list = [re.match("([a-z0-9-\.]*)\. ", i).group(1) for i in brute_list]
-    alt_domain_list = [re.match("([a-z0-9-\.]*)\. ", i).group(1) for i in alt_list]
+    passive_domain_list = [re.match("([a-z0-9-\._]*)\. ", i).group(1) for i in passive_list]
+    brute_domain_list = [re.match("([a-z0-9-\._]*)\. ", i).group(1) for i in brute_list]
+    alt_domain_list = [re.match("([a-z0-9-\._]*)\. ", i).group(1) for i in alt_list]
 
     #File with domains only
     set_of_domain_lists = set(passive_domain_list + brute_domain_list + alt_domain_list)
